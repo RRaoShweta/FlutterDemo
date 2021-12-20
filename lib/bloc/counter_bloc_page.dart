@@ -11,7 +11,7 @@ class CounterPage extends StatelessWidget {
     final CounterBloc counterBloc = BlocProvider.of<CounterBloc>(context);
 
     return Scaffold(
-      appBar: AppBar(title: const Text('Counter')),
+      appBar: AppBar(title: const Text('Bloc - Counter')),
       body: BlocBuilder<CounterBloc, int>(
         builder: (context, count) {
           return Center(
