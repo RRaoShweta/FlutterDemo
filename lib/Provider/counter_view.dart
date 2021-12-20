@@ -7,11 +7,11 @@ class CounterView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final counterModel = Provider.of<CounterModel>(context);
+    final counterModel = Provider.of<CounterProvider>(context);
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text("State Management Provider"),
+        title: const Text("Provider - Counter"),
       ),
       body: Center(
         child: Text(

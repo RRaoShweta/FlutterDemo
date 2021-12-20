@@ -5,33 +5,10 @@ import 'package:state_management_demo/Provider/counter_model.dart';
 import 'package:state_management_demo/Provider/counter_view.dart';
 import 'package:state_management_demo/bloc/counter_bloc.dart';
 import 'package:state_management_demo/bloc/counter_bloc_page.dart';
+import 'package:state_management_demo/home_page.dart';
 
 void main() {
-  runApp(ProviderStateDemo());
-}
-
-class ProviderStateDemo extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      home: ChangeNotifierProvider<CounterModel>(
-        create: (_) => CounterModel(),
-        child: const CounterView(),
-      ),
-    );
-  }
-}
-
-class BlocStateDemo extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      home: BlocProvider<CounterBloc>(
-        create: (context) => CounterBloc(),
-        child: const CounterPage(),
-      ),
-    );
-  }
+  runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
@@ -40,21 +17,27 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        // This is the theme of your application.
-        //
-        // Try running your application with "flutter run". You'll see the
-        // application has a blue toolbar. Then, without quitting the app, try
-        // changing the primarySwatch below to Colors.green and then invoke
-        // "hot reload" (press "r" in the console where you ran "flutter run",
-        // or simply save your changes to "hot reload" in a Flutter IDE).
-        // Notice that the counter didn't reset back to zero; the application
-        // is not restarted.
-        primarySwatch: Colors.blue,
+    return BlocProvider<CounterBloc>(
+      create: (context) => CounterBloc(),
+      child: ChangeNotifierProvider<CounterProvider>(
+        create: (_) => CounterProvider(),
+        child: MaterialApp(
+          title: 'Flutter Demo',
+          theme: ThemeData(
+            // This is the theme of your application.
+            //
+            // Try running your application with "flutter run". You'll see the
+            // application has a blue toolbar. Then, without quitting the app, try
+            // changing the primarySwatch below to Colors.green and then invoke
+            // "hot reload" (press "r" in the console where you ran "flutter run",
+            // or simply save your changes to "hot reload" in a Flutter IDE).
+            // Notice that the counter didn't reset back to zero; the application
+            // is not restarted.
+            primarySwatch: Colors.blue,
+          ),
+          home: const MyHomePage(title: 'Flutter Demo Home Page'),
+        ),
       ),
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
     );
   }
 }
@@ -132,6 +115,24 @@ class _MyHomePageState extends State<MyHomePage> {
               '$_counter',
               style: Theme.of(context).textTheme.headline4,
             ),
+            SizedBox(
+              height: 100,
+            ),
+            RaisedButton(
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) =>
+                        ChangeNotifierProvider<CounterProvider>.value(
+                      value: CounterProvider(),
+                      child: HomePage(),
+                    ),
+                  ),
+                );
+              },
+              child: Text('Demo Page'),
+            ),
           ],
         ),
       ),
@@ -141,5 +142,19 @@ class _MyHomePageState extends State<MyHomePage> {
         child: const Icon(Icons.add),
       ), // This trailing comma makes auto-formatting nicer for build methods.
     );
+  }
+}
+
+class ProviderStateDemo extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return const CounterView();
+  }
+}
+
+class BlocStateDemo extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return const CounterPage();
   }
 }
